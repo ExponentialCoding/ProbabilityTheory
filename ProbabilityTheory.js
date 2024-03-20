@@ -41,6 +41,7 @@ var getDescription = () => {
         "multiple game stages",
         "literally a gachapon system",
         "some die rolling",
+        "a full RPG system",
     ];
 
     let desc = descRoll[seed % descRoll.length] + ". Featuring ";
@@ -66,7 +67,7 @@ var getDescription = () => {
 
     desc += "\n\nTip of the day: " + tips[seed % tips.length];
 
-    desc += "\n\nVersion: 5, Patch: 10"
+    desc += "\n\nVersion: 5, Patch: 11"
 
     return desc;
 }
@@ -1081,7 +1082,7 @@ var init = () => {
         () => (gachaTotal.toNumber() / 5));
     theory.createAchievement(151, ac4, "Pocket Toys", "Get 10 total ⊖.", () => gachaTotal >= 10,
         () => (gachaTotal.toNumber() / 10));
-    theory.createAchievement(152, ac4, "Colecting is Fun", "Get 25 total ⊖.", () => gachaTotal >= 25,
+    theory.createAchievement(152, ac4, "Collecting is Fun", "Get 25 total ⊖.", () => gachaTotal >= 25,
         () => (gachaTotal.toNumber() / 25));
     theory.createAchievement(153, ac4, "Stars, Come Out!", "Get 50 total ⊖.", () => gachaTotal >= 50,
         () => (gachaTotal.toNumber() / 50));
