@@ -1,4 +1,4 @@
-﻿/*------------------------------------------*
+/*------------------------------------------*
 |            Probability  Theory            |
 |               by ducdat0507               |
 |              "i give up lmao"             |
@@ -41,6 +41,8 @@ var getDescription = () => {
         "multiple game stages",
         "literally a gachapon system",
         "some die rolling",
+        "a full RPG system",
+        "a dynamically changing egg opening system",
     ];
 
     let desc = descRoll[seed % descRoll.length] + ". Featuring ";
@@ -62,11 +64,12 @@ var getDescription = () => {
         "This theory is compatible with your ad rewards. It isn't compatible with the minigames though, so I decided to make my own ones.",
         "EX skills appear half as often as normal skills, while SP skills, when unlocked, are 50 times rarer than normal skills.",
         "If your tau becomes larger than 1e10000, you can still use the custom theory selection menu to view the full exponent number",
+        "Once you fully upgrade the egg opening milestone, the dynamic egg opening kicks in at 10 times less eggs, meaning it'll speed up the process even more.",
     ];
 
     desc += "\n\nTip of the day: " + tips[seed % tips.length];
 
-    desc += "\n\nVersion: 5, Patch: 10, Mod: 1"
+    desc += "\n\nVersion: 5, Patch: 11, Mod: 1"
 
     return desc;
 }
@@ -1081,7 +1084,7 @@ var init = () => {
         () => (gachaTotal.toNumber() / 5));
     theory.createAchievement(151, ac4, "Pocket Toys", "Get 10 total ⊖.", () => gachaTotal >= 10,
         () => (gachaTotal.toNumber() / 10));
-    theory.createAchievement(152, ac4, "Colecting is Fun", "Get 25 total ⊖.", () => gachaTotal >= 25,
+    theory.createAchievement(152, ac4, "Collecting is Fun", "Get 25 total ⊖.", () => gachaTotal >= 25,
         () => (gachaTotal.toNumber() / 25));
     theory.createAchievement(153, ac4, "Stars, Come Out!", "Get 50 total ⊖.", () => gachaTotal >= 50,
         () => (gachaTotal.toNumber() / 50));
@@ -1809,10 +1812,10 @@ var getEquationOverlay = () => ui.createGrid({
         if (stage == 2) {
             if (gacha < 1) return;
             extra_mult = 1;
-            if (gachaBulk.level==74 && !(gacha/(1 + gachaBulk.level) < 100) && gacha != 0) {
+            if (gachaBulk.level==74 && !(gacha/(1 + gachaBulk.level) < 100)) {
                 extra_mult = Math.pow(10,(Math.floor(Math.log10(gacha/(1 + gachaBulk.level)))-1));
             }
-            if(gachaBulk.level<74 && !(gacha/(1 + gachaBulk.level) < 1000) && gacha != 0) {
+            if(gachaBulk.level<74 && !(gacha/(1 + gachaBulk.level) < 1000)) {
                 extra_mult = Math.pow(10,(Math.floor(Math.log10(gacha/(1 + gachaBulk.level)))-2));
             }
             let multi = Math.min(gacha, 1 + gachaBulk.level);
