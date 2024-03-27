@@ -43,6 +43,7 @@ var getDescription = () => {
         "some die rolling",
         "a full RPG system",
         "a dynamically changing egg opening system",
+        "an individual perk respec system",
     ];
 
     let desc = descRoll[seed % descRoll.length] + ". Featuring ";
@@ -69,7 +70,7 @@ var getDescription = () => {
 
     desc += "\n\nTip of the day: " + tips[seed % tips.length];
 
-    desc += "\n\nVersion: 5, Patch: 11, Mod: 1"
+    desc += "\n\nVersion: 5, Patch: 11, Mod: 2"
 
     return desc;
 }
@@ -2867,7 +2868,22 @@ var showPerkPopup = () => {
         };
         return true;
     }
-    
+
+    let refundable = (p) => {
+        if (p == 11 && !perks[21] && !perks[22] && !perks[23] && !perks[24]) {
+            return true;
+        } else if ((p == 21 || p == 22 || p == 23 || p == 24) && !perks[p+10]) {
+            return true;
+        }else if ((p == 31 || p == 32) && !perks[41]) {
+            return true;
+        }else if ((p == 33 || p == 34) && !perks[42]) {
+            return true;
+        }else if (p == 41 || p == 42) {
+            return true;
+        };
+        return false;
+    }
+
     for (let p in perkData) {
         let data = perkData[p];
         let line = Math.floor(p / 10);
@@ -2894,6 +2910,8 @@ var showPerkPopup = () => {
                             buyButton.text = Localization.get("BuyablesCostBought");
                             buyButton.opacity = 0.5;
                             buyButton.inputTransparent = true;
+                            refundButton.opacity = 1;
+                            refundButton.inputTransparent = false;
                             updateButtons();
                             updateAvailability();
                             theory.invalidateSecondaryEquation();
@@ -2901,9 +2919,56 @@ var showPerkPopup = () => {
                     }
                 });
 
-                buyButton.text = perks[p] ? Localization.get("BuyablesCostBought") : pass(p) ? "1 Perk Point" : "Requires " + data.req.map(x => perkData[x].name).join(" + ");
-                buyButton.opacity = !perks[p] && pass(p) && perkPoints >= 1 ? 1 : 0.5;
-                buyButton.inputTransparent = !perks[p] && pass(p) && perkPoints >= 1 ? false : true;
+                let refundButton = ui.createButton({
+                    onClicked: () => {
+                        if (perks[p] && refundable(p)) {
+                            perks[p] = false;
+                            perkPoints++;
+                            refundButton.text = Localization.get("StarPopupRespec");
+                            buyButton.opacity = 1;
+                            buyButton.inputTransparent = false;
+                            buyButton.text = "1 Perk Point";
+                            refundButton.opacity = 0.5;
+                            refundButton.inputTransparent = true;
+                            updateButtons();
+                            updateAvailability();
+                            theory.invalidateSecondaryEquation();
+                        }
+                    }
+                });
+
+                if (perks[p]) {
+                    buyButton.text = Localization.get("BuyablesCostBought");
+                    buyButton.opacity = 0.5;
+                    buyButton.inputTransparent = true;
+                    refundButton.text = Localization.get("StarPopupRespec");
+                    if (refundable(p)) {
+                        refundButton.opacity = 1;
+                        refundButton.inputTransparent = false;
+                    } else {
+                        refundButton.opacity = 0.5;
+                        refundButton.inputTransparent = true;
+                    }
+                } else if (pass(p)) {
+                    buyButton.text = "1 Perk Point";
+                    if (perkPoints >= 1) {
+                        buyButton.opacity = 1;
+                        buyButton.inputTransparent = false;
+                    } else {
+                        buyButton.opacity = 0.5;
+                        buyButton.inputTransparent = true;
+                    }
+                    refundButton.text = Localization.get("StarPopupRespec");
+                    refundButton.opacity = 0.5;
+                    refundButton.inputTransparent = true;
+                } else {
+                    buyButton.text = "Requires " + data.req.map(x => perkData[x].name).join(" + ");
+                    buyButton.opacity = 0.5;
+                    buyButton.inputTransparent = true;
+                    refundButton.text = Localization.get("StarPopupRespec");
+                    refundButton.opacity = 0.5;
+                    refundButton.inputTransparent = true;
+                }
 
                 let subPopup = ui.createPopup({
                     onDisappearing: () => isSubPopupOpen = false,
@@ -2916,6 +2981,7 @@ var showPerkPopup = () => {
                                 margin: new Thickness(0, 10, 0, 10),
                             }),
                             buyButton,
+                            refundButton,
                             ui.createBox({ heightRequest: 1, margin: new Thickness(0, 8) }),
                             ui.createButton({ text: Localization.get("AutoPrestigeClose"), onClicked: () => { subPopup.hide() } })
                         ]
