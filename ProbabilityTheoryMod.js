@@ -2922,8 +2922,8 @@ var showPerkPopup = () => {
                 let refundButton = ui.createButton({
                     onClicked: () => {
                         if (perks[p] && refundable(p)) {
-                            perks[p] = false;
                             perkPoints++;
+                            delete perks[p];
                             refundButton.text = Localization.get("StarPopupRespec");
                             buyButton.opacity = 1;
                             buyButton.inputTransparent = false;
