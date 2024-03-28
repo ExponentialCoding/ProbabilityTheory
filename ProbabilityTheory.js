@@ -1021,9 +1021,9 @@ var init = () => {
         for (let a = 0; a < 6; a++) if (diceMasteries.substring(a * 6, a * 6 + 6) == "######") return true;
         return false;
     }, () => {
-        progress_count = 0
         max_progress = 0
         for (a = 0; a < 6; a++) {
+            progress_count = 0
             for (b = 0; b < 6; b++) {
                 if (diceMasteries[a*6 + b] == "#") {
                     progress_count += 1
