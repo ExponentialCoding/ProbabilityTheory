@@ -1006,7 +1006,7 @@ var init = () => {
         return true;
     }, () => {
         EX_count = 0
-        for (let a = 0; a < 13; a++) if (skills[a].level == 0) EX_count += 1;
+        for (let a = 0; a < 13; a++) if (skills[a].level != 0) EX_count += 1;
         return EX_count / 13;
     });
     theory.createAchievement(5, ac1, "Down the Rabbit Hole", "Unlock another new currency.", () => cur3Unlock.level > 0);
@@ -1016,7 +1016,7 @@ var init = () => {
         return true;
     }, () => {
         SP_count = 0
-        for (let a = 13; a < 21; a++) if (skills[a].level == 0) SP_count += 1;
+        for (let a = 13; a < 21; a++) if (skills[a].level != 0) SP_count += 1;
         return SP_count / 8;
     });
     theory.createAchievement(8, ac1, "Progress Bars", "Unlock the RPG.", () => rpgUnlock.level > 0);
