@@ -67,7 +67,7 @@ var getDescription = () => {
 
     desc += "\n\nTip of the day: " + tips[seed % tips.length];
 
-    desc += "\n\nVersion: 5, Patch: 11"
+    desc += "\n\nVersion: 5, Patch: 12"
 
     return desc;
 }
@@ -1001,20 +1001,50 @@ var init = () => {
     theory.createAchievement(4, ac1, "Gotta Collect 'em All", "Unlock all 13 normal and EX ⊖ skills.", () => {
         for (let a = 0; a < 13; a++) if (skills[a].level == 0) return false;
         return true;
+    }, () => {
+        EX_count = 0
+        for (let a = 0; a < 13; a++) if (skills[a].level == 0) EX_count += 1;
+        return EX_count / 13;
     });
     theory.createAchievement(5, ac1, "Down the Rabbit Hole", "Unlock another new currency.", () => cur3Unlock.level > 0);
     theory.createAchievement(6, ac1, "Role-Playing Scientist", "Unlock ⊡.", () => diceUnlock.level > 0);
     theory.createAchievement(7, ac1, "Gotta Collect More of 'em", "Unlock all 8 SP ⊖ skills.", () => {
         for (let a = 13; a < 21; a++) if (skills[a].level == 0) return false;
         return true;
+    }, () => {
+        SP_count = 0
+        for (let a = 13; a < 21; a++) if (skills[a].level == 0) SP_count += 1;
+        return SP_count / 8;
     });
     theory.createAchievement(8, ac1, "Progress Bars", "Unlock the RPG.", () => rpgUnlock.level > 0);
     theory.createAchievement(9, ac1, "Master of a Die", "Fully master one die.", () => {
         for (let a = 0; a < 6; a++) if (diceMasteries.substring(a * 6, a * 6 + 6) == "######") return true;
         return false;
+    }, () => {
+        progress_count = 0
+        max_progress = 0
+        for (a = 0; a < 6; a++) {
+            for (b = 0; b < 6; b++) {
+                if (diceMasteries[a*6 + b] == "#") {
+                    progress_count += 1
+                }
+            }
+            if (progress_count > max_progress) {
+                max_progress  = progress_count
+            }
+        }
+        return max_progress / 6;
     });
     theory.createAchievement(10, ac1, "Master of All Dice", "Fully master all the dice.", () => {
         return diceMasteries == "####################################"
+    }, () => {
+        tag_count = 0
+        for (a=0; a < 36; a++) {
+            if (diceMasteries[a] == "#") {
+                tag_count += 1;
+            }
+        }
+        return tag_count / 36;
     });
 
     ac2 = theory.createAchievementCategory(1, "Net Worth");
@@ -1153,9 +1183,9 @@ var init = () => {
     theory.createAchievement(302, ac7, "You Beat The Theory!", "Reach an RPG score of 50.", () => rpgScore >= 50,
         () => (rpgScore / 50));
     theory.createAchievement(303, ac7, "Wait, There's More?", "Reach an RPG score of 75.", () => rpgScore >= 75,
-        () => (rpgScore / 80));
+        () => (rpgScore / 75));
     theory.createAchievement(304, ac7, "Second Theory Cleared", "Reach an RPG score of 100.", () => rpgScore >= 100,
-        () => (rpgScore / 110));
+        () => (rpgScore / 100));
     theory.createAchievement(305, ac7, "Getting Stronger", "Reach an RPG score of 160.", () => rpgScore >= 160,
         () => (rpgScore / 160));
     theory.createAchievement(306, ac7, "Quarter of a Thousand", "Reach an RPG score of 250.", () => rpgScore >= 250,
