@@ -1003,13 +1003,13 @@ var init = () => {
         return true;
     }, () => {
         EX_count = 0
-        for (let a = 0; a < 13; a++) if (skills[a].level == 0) EX_count += 1;
+        for (let a = 0; a < 13; a++) if (skills[a].level != 0) EX_count += 1;
         return EX_count / 13;
     });
     theory.createAchievement(5, ac1, "Down the Rabbit Hole", "Unlock another new currency.", () => cur3Unlock.level > 0);
     theory.createAchievement(6, ac1, "Role-Playing Scientist", "Unlock ⊡.", () => diceUnlock.level > 0);
     theory.createAchievement(7, ac1, "Gotta Collect More of 'em", "Unlock all 8 SP ⊖ skills.", () => {
-        for (let a = 13; a < 21; a++) if (skills[a].level == 0) return false;
+        for (let a = 13; a < 21; a++) if (skills[a].level != 0) return false;
         return true;
     }, () => {
         SP_count = 0
