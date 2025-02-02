@@ -70,7 +70,7 @@ var getDescription = () => {
 
     desc += "\n\nTip of the day: " + tips[seed % tips.length];
 
-    desc += "\n\nVersion: 5, Patch: 12, Mod: 2"
+    desc += "\n\nVersion: 5, Patch: 13, Mod: 2"
 
     return desc;
 }
@@ -220,7 +220,7 @@ var skillData = [
         info: (amount) => "Unlocks $c_{5~8}$, depending on level",
         maxLevel: 4,
         effect: (level) => level,
-        effectText: (level) => "$c_" + (level + 4) + "$ unlocked" + (level < 4 ? ", next unlocks $c_" + (level + 5) + "$" : ""),
+        effectText: (level) => "$c_{" + (level + 4) + "}$ unlocked" + (level < 4 ? ", next unlocks $c_{" + (level + 5) + "}$" : ""),
         starValue: [1, 2, 3, 5, 7, 11],
         starCost: new ExponentialCost(20, 2),
     }, 
