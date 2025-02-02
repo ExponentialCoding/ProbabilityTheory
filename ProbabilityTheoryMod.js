@@ -302,7 +302,7 @@ var skillData = [
         info: (amount) => "Unlocks $c_{9~12}$, depending on level",
         maxLevel: 4,
         effect: (level) => level,
-        effectText: (level) => "$c_" + (level + 8) + "$ unlocked" + (level < 4 ? ", next unlocks $c_" + (level + 9) + "$" : ""),
+        effectText: (level) => "$c_{" + (level + 8) + "}$ unlocked" + (level < 4 ? ", next unlocks $c_{" + (level + 9) + "}$" : ""),
         starValue: [1, 2, 3, 4, 5, 6],
         starCost: new ExponentialCost(200, 2),
     }, 
